@@ -30,7 +30,7 @@ public class Order {
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
-    @Column(name = "TOTAL_VALUE",nullable = false)
+    @Column(name = "total_value",nullable = false)
     private BigDecimal totalValue;
 
     @Enumerated(EnumType.STRING)
