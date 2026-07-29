@@ -13,9 +13,9 @@ version BIGINT NOT NULL DEFAULT 0,
 
 CONSTRAINT uq_ticket_batch_sector_number UNIQUE (ticket_sector_id, batch_number),
 CONSTRAINT chk_ticket_batch_available_quantity CHECK (total_available <= total_quantity),
-CONSTRAINT chk_ticket_batch_sales_period CHECK (sales_start_at < sales_end_at)
+CONSTRAINT chk_ticket_batch_sales_period CHECK (sales_start_at < sales_end_at),
 
 created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 
-)
+);
