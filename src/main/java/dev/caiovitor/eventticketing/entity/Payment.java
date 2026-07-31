@@ -51,5 +51,5 @@ public class Payment {
 
     @LastModifiedDate
     @Column(name = "updated_at" , nullable = false)
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 }
