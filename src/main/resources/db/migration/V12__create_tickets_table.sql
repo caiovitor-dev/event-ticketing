@@ -1,0 +1,11 @@
+CREATE TABLE tickets (
+
+id UUID PRIMARY KEY,
+order_item_id UUID NOT NULL REFERENCES order_items(id),
+ticket_status varchar(20) NOT NULL CHECK (ticket_status in ('ISSUED','USED','INVALID')),
+validation_code UUID NOT NULL UNIQUE,
+version BIGINT DEFAULT 0,
+
+created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+)

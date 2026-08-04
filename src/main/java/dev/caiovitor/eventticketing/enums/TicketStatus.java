@@ -1,4 +1,7 @@
 package dev.caiovitor.eventticketing.enums;
 
-public class TicketStatus {
+public enum TicketStatus {
+    ISSUED,
+    USED,
+    INVALID,
 }
