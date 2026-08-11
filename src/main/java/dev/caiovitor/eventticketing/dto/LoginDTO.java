@@ -1,4 +1,7 @@
 package dev.caiovitor.eventticketing.dto;
 
-public class LoginDTO {
+public record LoginDTO(
+        String email,
+        String password
+) {
 }
