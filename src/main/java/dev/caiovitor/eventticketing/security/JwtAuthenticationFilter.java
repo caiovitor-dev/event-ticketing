@@ -64,7 +64,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (JwtException e) {
-           JwtAuthenticationException jwtAuthenticationException = new JwtAuthenticationException("Token expired or invalid");
+
+           JwtAuthenticationException jwtAuthenticationException = new JwtAuthenticationException(e.getMessage(),e);
            authenticationEntryPoint.commence(request,response,jwtAuthenticationException);
         }
     }
