@@ -5,8 +5,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import lombok.Getter;
+import lombok.Setter;
 
 @Embeddable
+@Getter
+@Setter
 public class Address {
 
     @Column(name = "cep", nullable = false,length = 8)
