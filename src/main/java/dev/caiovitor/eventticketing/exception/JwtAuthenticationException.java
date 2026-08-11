@@ -2,8 +2,8 @@ package dev.caiovitor.eventticketing.exception;
 
 import org.springframework.security.core.AuthenticationException;
 
-public class JwtException extends AuthenticationException {
-    public JwtException(String message) {
+public class JwtAuthenticationException extends AuthenticationException {
+    public JwtAuthenticationException(String message) {
         super(message);
     }
 }
