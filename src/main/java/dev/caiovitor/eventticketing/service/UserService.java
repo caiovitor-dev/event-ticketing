@@ -18,20 +18,9 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final RoleService roleService;
 
-    @Transactional
-    public User registerUser(User user){
-
-        Optional<Role> role = roleService.findByName(RoleName.ROLE_CLIENT);
-        String encode = passwordEncoder.encode(user.getPassword());
-
-
-        user.setPassword(encode);
-        user.setRoles(role.stream().collect(Collectors.toSet()));
-
+    public User createUser(User user){
         return userRepository.save(user);
-
     }
+
 }

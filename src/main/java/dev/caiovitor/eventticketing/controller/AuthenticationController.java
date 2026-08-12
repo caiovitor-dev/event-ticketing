@@ -33,8 +33,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody UserCreateDTO dto){
 
-
-        User user = userService.registerUser(userMapper.toEntity(dto));
+        User user = authenticationService.registerUser(userMapper.toEntity(dto));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
