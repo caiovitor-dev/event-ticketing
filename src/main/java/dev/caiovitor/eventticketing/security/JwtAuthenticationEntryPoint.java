@@ -1,6 +1,6 @@
 package dev.caiovitor.eventticketing.security;
 
-import dev.caiovitor.eventticketing.dto.ErroResponseDTO;
+import dev.caiovitor.eventticketing.dto.ErrorResponseDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +24,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
 
-        ErroResponseDTO erro = new ErroResponseDTO(
+        ErrorResponseDTO erro = new ErrorResponseDTO(
                 HttpStatus.UNAUTHORIZED.value(),
                 authException.getMessage(),
                 LocalDateTime.now());
