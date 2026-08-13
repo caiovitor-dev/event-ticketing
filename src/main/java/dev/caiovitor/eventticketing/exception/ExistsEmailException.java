@@ -1,7 +1,7 @@
 package dev.caiovitor.eventticketing.exception;
 
-public class EmailExistException extends RuntimeException {
-    public EmailExistException(String message) {
+public class ExistsEmailException extends RuntimeException {
+    public ExistsEmailException(String message) {
         super(message);
     }
 }

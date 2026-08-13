@@ -1,7 +1,7 @@
 package dev.caiovitor.eventticketing.exception;
 
-public class CpfExistsException extends RuntimeException {
-    public CpfExistsException(String message) {
+public class ExistsCpfException extends RuntimeException {
+    public ExistsCpfException(String message) {
         super(message);
     }
 }
