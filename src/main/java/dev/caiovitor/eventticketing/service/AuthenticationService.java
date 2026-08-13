@@ -5,6 +5,8 @@ import dev.caiovitor.eventticketing.dto.TokenResponseDTO;
 import dev.caiovitor.eventticketing.entity.Role;
 import dev.caiovitor.eventticketing.entity.User;
 import dev.caiovitor.eventticketing.enums.RoleName;
+import dev.caiovitor.eventticketing.exception.ExistsCpfException;
+import dev.caiovitor.eventticketing.exception.ExistsEmailException;
 import dev.caiovitor.eventticketing.exception.RoleNotFoundException;
 import dev.caiovitor.eventticketing.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,14 @@ public class AuthenticationService {
 
     @Transactional
     public User registerUser(User user) {
+
+        if(userService.existsByEmail(user.getEmail())){
+            throw new ExistsEmailException("This email is already registered");
+        }
+
+        if(userService.existsByEmail(user.getCpf())){
+            throw new ExistsCpfException("This cpf is already registered");
+        }
 
         Role role = roleService.findByName(RoleName.ROLE_CLIENT).orElseThrow(() -> new RoleNotFoundException("Role Not Found"));
         String encode = passwordEncoder.encode(user.getPassword());
