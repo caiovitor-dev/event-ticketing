@@ -24,7 +24,7 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", updatable = false)
+    @Column(name = "id")
     private UUID id;
 
     @OneToOne
