@@ -8,12 +8,12 @@ import dev.caiovitor.eventticketing.enums.RoleName;
 import dev.caiovitor.eventticketing.exception.ExistsCpfException;
 import dev.caiovitor.eventticketing.exception.ExistsEmailException;
 import dev.caiovitor.eventticketing.exception.RoleNotFoundException;
+import dev.caiovitor.eventticketing.security.CustomUserDetails;
 import dev.caiovitor.eventticketing.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,17 +31,23 @@ public class AuthenticationService {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
-
+    private final RefreshTokenService refreshTokenService;
 
     public TokenResponseDTO login(LoginDTO dto){
 
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.email(), dto.password()));
+        Authentication authenticate = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        dto.email(),
+                        dto.password()
+                )
+        );
 
-        UserDetails userDetails = (UserDetails) authenticate.getPrincipal();
-
+        CustomUserDetails userDetails = (CustomUserDetails) authenticate.getPrincipal();
         String token = jwtService.generateAccessToken(userDetails);
 
-        return new TokenResponseDTO(token);
+        String refreshToken = refreshTokenService.createRefreshToken(userDetails.getUser());
+
+        return new TokenResponseDTO(token,refreshToken);
     }
 
     @Transactional
