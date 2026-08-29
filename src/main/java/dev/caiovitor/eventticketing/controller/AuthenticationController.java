@@ -6,7 +6,6 @@ import dev.caiovitor.eventticketing.dto.UserCreateDTO;
 import dev.caiovitor.eventticketing.entity.User;
 import dev.caiovitor.eventticketing.mapper.UserMapper;
 import dev.caiovitor.eventticketing.service.AuthenticationService;
-import dev.caiovitor.eventticketing.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ import java.net.URI;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-    private final UserService userService;
     private final UserMapper userMapper;
 
     @PostMapping("/login")
