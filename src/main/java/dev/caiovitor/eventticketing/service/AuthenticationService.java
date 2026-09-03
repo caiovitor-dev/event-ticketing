@@ -33,7 +33,7 @@ public class AuthenticationService {
     private final RoleService roleService;
     private final RefreshTokenService refreshTokenService;
 
-    public TokenResponseDTO login(LoginDTO dto){
+    public TokenResponseDTO login(LoginDTO dto)  {
 
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -57,7 +57,7 @@ public class AuthenticationService {
             throw new ExistsEmailException("This email is already registered");
         }
 
-        if(userService.existsByEmail(user.getCpf())){
+        if(userService.existsByCpf(user.getCpf())){
             throw new ExistsCpfException("This cpf is already registered");
         }
 
