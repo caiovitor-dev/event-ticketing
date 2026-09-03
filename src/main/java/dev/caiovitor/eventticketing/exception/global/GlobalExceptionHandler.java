@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorResponseDTO> handlerMethodArgumentNotValid(MethodArgumentNotValidException e){
+    public ResponseEntity<ValidationErrorResponseDTO> handleMethodArgumentNotValid(MethodArgumentNotValidException e){
 
         Map<String,String> errors = new HashMap<>();
 
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(RoleNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO>  handlerRoleNotFound(RoleNotFoundException e){
+    public ResponseEntity<ErrorResponseDTO>  handleRoleNotFound(RoleNotFoundException e){
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ErrorResponseDTO(
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
                         LocalDateTime.now()));
     }
     @ExceptionHandler(ExistsEmailException.class)
-    public ResponseEntity<ErrorResponseDTO>  handlerExistsEmail(ExistsEmailException e){
+    public ResponseEntity<ErrorResponseDTO>  handleExistsEmail(ExistsEmailException e){
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 new ErrorResponseDTO(
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
                         LocalDateTime.now()));
     }
     @ExceptionHandler(ExistsCpfException.class)
-    public ResponseEntity<ErrorResponseDTO>  handlerExistsCpf(ExistsCpfException e){
+    public ResponseEntity<ErrorResponseDTO>  handleExistsCpf(ExistsCpfException e){
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 new ErrorResponseDTO(
