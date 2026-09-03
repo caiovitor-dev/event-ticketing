@@ -1,4 +1,7 @@
 package dev.caiovitor.eventticketing.dto;
 
-public record AcessTokenDTO(String newAcess) {
+
+import java.util.UUID;
+
+public record RefreshTokenResponseDTO(UUID refreshToken) {
 }

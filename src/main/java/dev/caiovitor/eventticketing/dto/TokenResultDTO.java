@@ -1,4 +1,7 @@
 package dev.caiovitor.eventticketing.dto;
 
-public class TokenResultDTO {
+public record TokenResultDTO (
+        String accessToken,
+        String refreshToken
+){
 }
