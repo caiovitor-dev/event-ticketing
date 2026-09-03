@@ -5,6 +5,7 @@ import dev.caiovitor.eventticketing.dto.ValidationErrorResponseDTO;
 import dev.caiovitor.eventticketing.exception.ExistsCpfException;
 import dev.caiovitor.eventticketing.exception.ExistsEmailException;
 import dev.caiovitor.eventticketing.exception.RoleNotFoundException;
+import dev.caiovitor.eventticketing.exception.TokenExpiredException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -46,6 +47,7 @@ public class GlobalExceptionHandler {
                         e.getMessage(),
                         LocalDateTime.now()));
     }
+
     @ExceptionHandler(ExistsEmailException.class)
     public ResponseEntity<ErrorResponseDTO>  handleExistsEmail(ExistsEmailException e){
 
@@ -55,12 +57,23 @@ public class GlobalExceptionHandler {
                         e.getMessage(),
                         LocalDateTime.now()));
     }
+
     @ExceptionHandler(ExistsCpfException.class)
     public ResponseEntity<ErrorResponseDTO>  handleExistsCpf(ExistsCpfException e){
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 new ErrorResponseDTO(
                         HttpStatus.CONFLICT.value(),
+                        e.getMessage(),
+                        LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<ErrorResponseDTO> handleTokenExpired(TokenExpiredException e){
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new ErrorResponseDTO(
+                        HttpStatus.UNAUTHORIZED.value(),
                         e.getMessage(),
                         LocalDateTime.now()));
     }
