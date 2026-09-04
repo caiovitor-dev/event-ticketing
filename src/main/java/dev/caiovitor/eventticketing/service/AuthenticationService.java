@@ -1,5 +1,6 @@
 package dev.caiovitor.eventticketing.service;
 
+import dev.caiovitor.eventticketing.dto.CreatedRefreshTokenResultDTO;
 import dev.caiovitor.eventticketing.dto.LoginDTO;
 import dev.caiovitor.eventticketing.dto.TokenResponseDTO;
 import dev.caiovitor.eventticketing.entity.Role;
@@ -45,9 +46,10 @@ public class AuthenticationService {
         CustomUserDetails userDetails = (CustomUserDetails) authenticate.getPrincipal();
         String token = jwtService.generateAccessToken(userDetails);
 
-        String refreshToken = refreshTokenService.createRefreshToken(userDetails.getUser());
+        CreatedRefreshTokenResultDTO refreshToken =
+                refreshTokenService.createRefreshToken(userDetails.getUser());
 
-        return new TokenResponseDTO(token,refreshToken);
+        return new TokenResponseDTO(token,refreshToken.rawToken());
     }
 
     @Transactional
