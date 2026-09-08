@@ -1,7 +1,7 @@
 package dev.caiovitor.eventticketing.exception;
 
-public class UserNotOwnerToken extends RuntimeException {
-    public UserNotOwnerToken(String message) {
+public class TokenOwnershipException extends RuntimeException {
+    public TokenOwnershipException(String message) {
         super(message);
     }
 }

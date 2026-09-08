@@ -83,7 +83,16 @@ public class GlobalExceptionHandler {
                         e.getMessage(),
                         LocalDateTime.now()));
     }
-    
+
+    @ExceptionHandler(TokenOwnershipException.class)
+    public ResponseEntity<ErrorResponseDTO> handleTokenOwnership(TokenOwnershipException e){
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                new ErrorResponseDTO(
+                        HttpStatus.FORBIDDEN.value(),
+                        e.getMessage(),
+                        LocalDateTime.now()));
+    }
 
     @ExceptionHandler(TokenNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleTokenNotFound(TokenNotFoundException e){
