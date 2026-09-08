@@ -1,7 +1,7 @@
 package dev.caiovitor.eventticketing.exception;
 
-public class TokenNotFound extends RuntimeException {
-  public TokenNotFound(String message) {
-    super(message);
-  }
+public class TokenNotFoundException extends RuntimeException {
+    public TokenNotFoundException(String message) {
+        super(message);
+    }
 }

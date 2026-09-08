@@ -83,4 +83,15 @@ public class GlobalExceptionHandler {
                         e.getMessage(),
                         LocalDateTime.now()));
     }
+    
+
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleTokenNotFound(TokenNotFoundException e){
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new ErrorResponseDTO(
+                        HttpStatus.NOT_FOUND.value(),
+                        e.getMessage(),
+                        LocalDateTime.now()));
+    }
 }
