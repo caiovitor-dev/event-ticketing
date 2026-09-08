@@ -5,8 +5,6 @@ import dev.caiovitor.eventticketing.entity.User;
 import dev.caiovitor.eventticketing.mapper.UserMapper;
 import dev.caiovitor.eventticketing.service.AuthenticationService;
 import dev.caiovitor.eventticketing.service.RefreshTokenService;
-import dev.caiovitor.eventticketing.service.SecurityUtils;
-import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +22,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final UserMapper userMapper;
     private final RefreshTokenService refreshTokenService;
-    private final SecurityUtils securityUtils;
+
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDTO> login(@Valid @RequestBody LoginDTO dto) {
