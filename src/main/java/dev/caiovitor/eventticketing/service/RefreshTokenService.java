@@ -5,13 +5,16 @@ import dev.caiovitor.eventticketing.dto.TokenResultDTO;
 import dev.caiovitor.eventticketing.entity.RefreshToken;
 import dev.caiovitor.eventticketing.entity.User;
 import dev.caiovitor.eventticketing.exception.TokenExpiredException;
+import dev.caiovitor.eventticketing.exception.TokenNotFoundException;
 import dev.caiovitor.eventticketing.exception.TokenRevokedException;
+import dev.caiovitor.eventticketing.exception.TokenOwnershipException;
 import dev.caiovitor.eventticketing.repository.RefreshTokenRepository;
 import dev.caiovitor.eventticketing.repository.UserRepository;
 import dev.caiovitor.eventticketing.security.CustomUserDetails;
 import dev.caiovitor.eventticketing.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -30,6 +33,7 @@ public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final SecurityUtils securityUtils;
 
     @Value("${jwt.refresh-token-expiration}")
     private Duration refreshTokenExpiration;
@@ -49,11 +53,15 @@ public class RefreshTokenService {
 
     }
 
-    public Optional<RefreshToken> findByToken(UUID token) {
-        return refreshTokenRepository.findByToken(tokenEncoder(token.toString()));
+    public Optional<RefreshToken> findByToken(UUID rawToken) {
+        return refreshTokenRepository.findByToken(tokenEncoder(rawToken.toString()));
     }
 
-    public TokenResultDTO rotateToken(RefreshToken oldToken) {
+
+    public TokenResultDTO rotateToken(UUID rawToken) {
+
+        RefreshToken oldToken = findByToken(rawToken)
+                .orElseThrow(() -> new TokenNotFoundException("Token not found"));
 
         if(isRevoked(oldToken)){
             throw new TokenRevokedException("Refresh token has revoked");
@@ -92,6 +100,7 @@ public class RefreshTokenService {
             throw new IllegalStateException("algorithm not found");
         }
     }
+
 
     private boolean isTokenExpired(RefreshToken token){
        return token.getExpiresAt().isBefore(LocalDateTime.now());

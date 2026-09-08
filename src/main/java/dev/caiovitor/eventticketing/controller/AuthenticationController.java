@@ -5,10 +5,12 @@ import dev.caiovitor.eventticketing.entity.User;
 import dev.caiovitor.eventticketing.mapper.UserMapper;
 import dev.caiovitor.eventticketing.service.AuthenticationService;
 import dev.caiovitor.eventticketing.service.RefreshTokenService;
+import dev.caiovitor.eventticketing.service.SecurityUtils;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,8 +24,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final UserMapper userMapper;
     private final RefreshTokenService refreshTokenService;
-
-    PasswordEncoder passwordEncoder;
+    private final SecurityUtils securityUtils;
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDTO> login(@Valid @RequestBody LoginDTO dto) {
@@ -51,18 +52,12 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponseDTO> refreshToken(@RequestBody RefreshTokenRequestDTO dto) {
 
-        return refreshTokenService.findByToken(dto.refreshToken()).map(token->{
+        TokenResultDTO tokenResult = refreshTokenService.rotateToken(dto.refreshToken());
 
-           TokenResultDTO tokenResult = refreshTokenService.rotateToken(token);
-
-            TokenResponseDTO tokens = new TokenResponseDTO(
-                    tokenResult.accessToken(),
-                    tokenResult.refreshToken()
-            );
-
-            return ResponseEntity.ok(tokens);
-
-        }).orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(new TokenResponseDTO(
+                tokenResult.accessToken(),
+                tokenResult.refreshToken()
+        ));
 
     }
 
