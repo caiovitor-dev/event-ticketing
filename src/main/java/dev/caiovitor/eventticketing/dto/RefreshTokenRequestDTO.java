@@ -1,12 +1,12 @@
 package dev.caiovitor.eventticketing.dto;
 
-
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
 public record RefreshTokenRequestDTO(
-        @NotBlank(message = "token cannot be blank.") UUID refreshToken
+       @NotNull(message = "Token cannot be empty.")
+       UUID refreshToken
 )
 {
 }
