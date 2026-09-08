@@ -55,9 +55,18 @@ public class AuthenticationController {
         TokenResultDTO tokenResult = refreshTokenService.rotateToken(dto.refreshToken());
 
         return ResponseEntity.ok(new TokenResponseDTO(
-                tokenResult.accessToken(),
-                tokenResult.refreshToken()
+                            tokenResult.accessToken(),
+                            tokenResult.refreshToken()
         ));
+
+    }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestBody RefreshTokenRequestDTO dto) {
+
+        refreshTokenService.logout(dto.refreshToken());
+        return ResponseEntity.noContent().build();
 
     }
 

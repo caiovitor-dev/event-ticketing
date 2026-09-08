@@ -57,6 +57,21 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByToken(tokenEncoder(rawToken.toString()));
     }
 
+    public void logout(UUID rawToken){
+        RefreshToken token = findByToken(rawToken)
+                .orElseThrow(() ->new TokenNotFoundException("Token not found"));
+
+        if(!token.getUser().equals(securityUtils.getLoggedUser())){
+            throw new TokenOwnershipException("Token does not belong to the user!.");
+        }
+
+        if(!isRevoked(token)){
+            token.setRevokedAt(LocalDateTime.now());
+            refreshTokenRepository.save(token);
+        }
+
+    }
+
 
     public TokenResultDTO rotateToken(UUID rawToken) {
 
