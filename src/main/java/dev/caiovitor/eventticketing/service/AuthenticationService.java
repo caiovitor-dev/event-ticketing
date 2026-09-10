@@ -73,4 +73,12 @@ public class AuthenticationService {
 
     }
 
+    @Transactional
+    public void chancePassword(String newPassword,CustomUserDetails userDetails ){
+
+
+        refreshTokenService.findAllRefreshTokensByUser(userDetails.getUser());
+
+    }
+
 }

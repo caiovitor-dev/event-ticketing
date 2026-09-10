@@ -1,18 +1,22 @@
 package dev.caiovitor.eventticketing.controller;
 
 import dev.caiovitor.eventticketing.dto.*;
+import dev.caiovitor.eventticketing.entity.RefreshToken;
 import dev.caiovitor.eventticketing.entity.User;
 import dev.caiovitor.eventticketing.mapper.UserMapper;
+import dev.caiovitor.eventticketing.security.CustomUserDetails;
 import dev.caiovitor.eventticketing.service.AuthenticationService;
 import dev.caiovitor.eventticketing.service.RefreshTokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -50,7 +54,7 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponseDTO> refreshToken(@Valid @RequestBody RefreshTokenRequestDTO dto) {
 
-        TokenResultDTO tokenResult = refreshTokenService.rotateToken(dto.refreshToken());
+        TokenResultDTO tokenResult = refreshTokenService.refreshToken(dto.refreshToken());
 
         return ResponseEntity.ok(new TokenResponseDTO(
                             tokenResult.accessToken(),
