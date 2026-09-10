@@ -48,7 +48,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponseDTO> refreshToken(@RequestBody RefreshTokenRequestDTO dto) {
+    public ResponseEntity<TokenResponseDTO> refreshToken(@Valid @RequestBody RefreshTokenRequestDTO dto) {
 
         TokenResultDTO tokenResult = refreshTokenService.rotateToken(dto.refreshToken());
 
@@ -61,7 +61,7 @@ public class AuthenticationController {
 
     @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@RequestBody RefreshTokenRequestDTO dto) {
+    public ResponseEntity<Void> logout(@Valid @RequestBody RefreshTokenRequestDTO dto) {
 
         refreshTokenService.logout(dto.refreshToken());
         return ResponseEntity.noContent().build();
