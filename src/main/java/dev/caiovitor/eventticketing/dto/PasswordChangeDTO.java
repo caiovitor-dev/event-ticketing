@@ -2,7 +2,7 @@ package dev.caiovitor.eventticketing.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record PasswordUpdateDTO(
+public record PasswordChangeDTO(
         @NotBlank(message = "New password cannot be blank.")
         String newPassword,
 
