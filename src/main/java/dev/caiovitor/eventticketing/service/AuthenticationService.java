@@ -3,21 +3,27 @@ package dev.caiovitor.eventticketing.service;
 import dev.caiovitor.eventticketing.dto.CreatedRefreshTokenResultDTO;
 import dev.caiovitor.eventticketing.dto.LoginDTO;
 import dev.caiovitor.eventticketing.dto.TokenResponseDTO;
+import dev.caiovitor.eventticketing.entity.RefreshToken;
 import dev.caiovitor.eventticketing.entity.Role;
 import dev.caiovitor.eventticketing.entity.User;
 import dev.caiovitor.eventticketing.enums.RoleName;
 import dev.caiovitor.eventticketing.exception.ExistsCpfException;
 import dev.caiovitor.eventticketing.exception.ExistsEmailException;
+import dev.caiovitor.eventticketing.exception.InvalidCurrentPasswordException;
 import dev.caiovitor.eventticketing.exception.RoleNotFoundException;
 import dev.caiovitor.eventticketing.security.CustomUserDetails;
 import dev.caiovitor.eventticketing.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 
@@ -74,10 +80,19 @@ public class AuthenticationService {
     }
 
     @Transactional
-    public void chancePassword(String newPassword,CustomUserDetails userDetails ){
+    public void changePassword(String newPassword,String currentPassword,CustomUserDetails userDetails){
 
+        User user = userDetails.getUser();
 
-        refreshTokenService.findAllRefreshTokensByUser(userDetails.getUser());
+        if(!passwordEncoder.matches(currentPassword,user.getPassword())){
+            throw new InvalidCurrentPasswordException("This is not your current password.");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userService.updateUser(user);
+
+       refreshTokenService.revokeUserTokens(user);
+
 
     }
 

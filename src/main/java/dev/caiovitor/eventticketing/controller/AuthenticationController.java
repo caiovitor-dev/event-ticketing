@@ -1,7 +1,6 @@
 package dev.caiovitor.eventticketing.controller;
 
 import dev.caiovitor.eventticketing.dto.*;
-import dev.caiovitor.eventticketing.entity.RefreshToken;
 import dev.caiovitor.eventticketing.entity.User;
 import dev.caiovitor.eventticketing.mapper.UserMapper;
 import dev.caiovitor.eventticketing.security.CustomUserDetails;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -71,6 +69,18 @@ public class AuthenticationController {
         return ResponseEntity.noContent().build();
 
     }
+
+    @PreAuthorize("hasRole('CLIENT')")
+    @PatchMapping("/change")
+    public ResponseEntity<Void> chancePassword(@Valid @RequestBody PasswordChangeDTO dto, @AuthenticationPrincipal CustomUserDetails userDetails){
+
+        authenticationService.changePassword(dto.newPassword(),dto.currentPassword(),userDetails);
+        return ResponseEntity.noContent().build();
+
+
+    }
+
+
 
 }
 
