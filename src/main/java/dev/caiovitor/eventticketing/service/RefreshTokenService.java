@@ -23,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -73,7 +74,7 @@ public class RefreshTokenService {
     }
 
 
-    public TokenResultDTO rotateToken(UUID rawToken) {
+    public TokenResultDTO refreshToken(UUID rawToken) {
 
         RefreshToken oldToken = findByToken(rawToken)
                 .orElseThrow(() -> new TokenNotFoundException("Token not found"));
@@ -101,6 +102,10 @@ public class RefreshTokenService {
         refreshTokenRepository.save(refreshToken.entity());
 
         return new TokenResultDTO(newAccessToken,refreshToken.rawToken());
+    }
+
+    public void revokeUserTokens(User user){
+       refreshTokenRepository.revokeUserTokens(user.getId());
     }
 
     private String tokenEncoder(String token) {
