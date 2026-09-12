@@ -38,7 +38,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public boolean isTokenValid(String token , UserDetails user){
+     boolean isTokenValid(String token , UserDetails user){
         String username = extractUsername(token);
         return  user.getUsername().equals(username) && !isTokenExpired(token);
     }
@@ -53,7 +53,7 @@ public class JwtService {
        return extractExpiration(token).before(new Date());
     }
 
-    public String extractUsername(String token){
+     String extractUsername(String token){
         return extractClaim(token,Claims::getSubject);
     }
 
