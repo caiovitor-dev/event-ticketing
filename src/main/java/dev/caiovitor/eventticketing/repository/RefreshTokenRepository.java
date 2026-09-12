@@ -24,7 +24,7 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, UUID
          """)
     public void revokeUserTokens(@Param("id")UUID id);
 
-    @Transactional
+ 
     @Modifying
     @Query("""
             DELETE RefreshToken u
