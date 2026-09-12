@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, UUID> {
 
-    public Optional<RefreshToken> findByToken(String token);
+    Optional<RefreshToken> findByToken(String token);
 
     @Modifying
     @Query("""
@@ -22,9 +22,9 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, UUID
            WHERE u.revokedAt IS NULL
            AND u.user.id =:id
          """)
-    public void revokeUserTokens(@Param("id")UUID id);
+     void revokeUserTokens(@Param("id")UUID id);
 
- 
+
     @Modifying
     @Query("""
             DELETE RefreshToken u
