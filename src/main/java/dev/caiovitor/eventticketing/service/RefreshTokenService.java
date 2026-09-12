@@ -14,8 +14,10 @@ import dev.caiovitor.eventticketing.security.CustomUserDetails;
 import dev.caiovitor.eventticketing.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -106,6 +108,12 @@ public class RefreshTokenService {
 
     public void revokeUserTokens(User user){
        refreshTokenRepository.revokeUserTokens(user.getId());
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 0 19-20 * * *")
+    public void deleteRevokedTokens(){
+        refreshTokenRepository.deleteRevokedTokens(LocalDateTime.now().minusDays(4));
     }
 
     private String tokenEncoder(String token) {
